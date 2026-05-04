@@ -33,7 +33,7 @@ void PlayGameState_Init(void)
 void PlayGameState_Update(void)
 {
 	// clear the background
-	CP_Settings_Background(CP_Color_Create(0, 0, 40, 255));
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 40, 255));
 
 	// if the user presses ESC from gameplay, the process will exit.
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))

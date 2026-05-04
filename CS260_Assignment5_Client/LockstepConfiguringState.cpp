@@ -51,7 +51,7 @@ void LockstepConfiguringState_Update()
 	}
 
 	// clear the background
-	CP_Settings_Background(CP_Color_Create(0, 0, 40, 255));
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 40, 255));
 
 	// draw the instructions and the current port value
 	CP_Settings_TextSize(30);

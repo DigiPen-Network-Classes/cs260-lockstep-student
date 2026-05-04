@@ -4,37 +4,40 @@
 //
 // author:			Justin Chambers
 // contributors:	Daniel Hamilton, Zachary Logsdon,
-//					Andrea Ellinger, Jason Thiel
+//					Andrea Ellinger, Jason Thiel, Kenny Mecham
 //
-// documentation link:
-// https://inside.digipen.edu/main/GSDP:GAM100/CProcessing
+// project and documentation:
+// https://github.com/DigiPen-Faculty/CProcessing
 //
 //---------------------------------------------------------
-// Copyright (c) 2020 DigiPen Institute of Technology
-//
-// This software is provided 'as-is', without any express or implied
-// warranty. In no event will the authors be held liable for any damages
-// arising from the use of this software.
+// MIT License
 // 
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-//
-// 1.	The origin of this software must not be misrepresented; you must not
-//		claim that you wrote the original software.If you use this software
-//		in a product, an acknowledgment in the product documentation would
-//		be appreciated but is not required.
+// Copyright(c) 2021 DigiPen Institute of Technology
 // 
-// 2.	Altered source versions must be plainly marked as such, and must not
-//		be misrepresented as being the original software.
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files(the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions :
 // 
-// 3.	This notice may not be removed or altered from any source
-//		distribution.
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+// 
 //---------------------------------------------------------
-// Library usage and acknowledgment:
+// Acknowledgment:
 //
 // NanoVG by Mikko Mononen
 // FMOD Studio by Firelight Technologies Pty Ltd.
+// 
 //---------------------------------------------------------
 
 #pragma once
@@ -69,11 +72,12 @@ CP_API int				CP_System_GetWindowWidth			(void);
 CP_API int				CP_System_GetWindowHeight			(void);
 CP_API int				CP_System_GetDisplayWidth			(void);
 CP_API int				CP_System_GetDisplayHeight			(void);
+CP_API int				CP_System_GetDisplayRefreshRate		(void);
 CP_API HWND				CP_System_GetWindowHandle			(void);
 CP_API void				CP_System_SetWindowTitle			(const char* title);
+CP_API CP_BOOL			CP_System_GetWindowFocus			(void);
 CP_API void				CP_System_ShowCursor				(CP_BOOL show);
-CP_API void				CP_System_ShowConsole				(void);
-CP_API int				CP_System_GetFrameCount				(void);
+CP_API unsigned 		CP_System_GetFrameCount				(void);
 CP_API float			CP_System_GetFrameRate				(void);
 CP_API void				CP_System_SetFrameRate				(float fps);
 CP_API float			CP_System_GetDt						(void);
@@ -84,7 +88,6 @@ CP_API float			CP_System_GetSeconds				(void);
 //---------------------------------------------------------
 // SETTINGS:
 //		Render settings
-CP_API void				CP_Settings_Background				(CP_Color c);
 CP_API void				CP_Settings_Fill					(CP_Color c);
 CP_API void				CP_Settings_NoFill					(void);
 CP_API void				CP_Settings_Stroke					(CP_Color c);
@@ -101,32 +104,34 @@ CP_API void				CP_Settings_ImageMode				(CP_POSITION_MODE mode);
 CP_API void				CP_Settings_BlendMode				(CP_BLEND_MODE blendMode);
 CP_API void				CP_Settings_ImageFilterMode			(CP_IMAGE_FILTER_MODE filterMode);
 CP_API void				CP_Settings_ImageWrapMode			(CP_IMAGE_WRAP_MODE wrapMode);
-CP_API void				CP_Settings_Save					(void);
-CP_API void				CP_Settings_Restore					(void);
-CP_API void				CP_Settings_ApplyMatrix				(CP_Matrix matrix);
-CP_API void				CP_Settings_ResetMatrix				(void);
+CP_API void				CP_Settings_TextSize				(float size);
+CP_API void				CP_Settings_TextAlignment			(CP_TEXT_ALIGN_HORIZONTAL h, CP_TEXT_ALIGN_VERTICAL v);
 CP_API void				CP_Settings_Scale					(float xScale, float yScale);
 CP_API void				CP_Settings_Rotate					(float degrees);
 CP_API void				CP_Settings_Translate				(float x, float y);
-CP_API void				CP_Settings_TextSize				(float size);
-CP_API void				CP_Settings_TextAlignment			(CP_TEXT_ALIGN_HORIZONTAL h, CP_TEXT_ALIGN_VERTICAL v);
+CP_API void				CP_Settings_ApplyMatrix				(CP_Matrix matrix);
+CP_API void				CP_Settings_ResetMatrix				(void);
+CP_API void				CP_Settings_Save					(void);
+CP_API void				CP_Settings_Restore					(void);
 
 
 //---------------------------------------------------------
 // COLOR:
 //		RGBA values are in the range of 0-255
-//		HSVA values are h (0-360), s (0-100), v (0-100), a (0-255)
+//		HSLA values are h (0-360), s (0-100), l (0-100), a (0-255)
 CP_API CP_Color			CP_Color_Create						(int r, int g, int b, int a);
+CP_API CP_Color			CP_Color_CreateHex					(int hexCode);
 CP_API CP_Color			CP_Color_Lerp						(CP_Color a, CP_Color b, float t);
-CP_API CP_Color			CP_Color_FromColorHSV				(CP_ColorHSV hsv);
-CP_API CP_ColorHSV		CP_ColorHSV_Create					(int h, int s, int v, int a);
-CP_API CP_ColorHSV		CP_ColorHSV_Lerp					(CP_ColorHSV a, CP_ColorHSV b, float t);
-CP_API CP_ColorHSV		CP_ColorHSV_FromColor				(CP_Color rgb);
+CP_API CP_Color			CP_Color_FromColorHSL				(CP_ColorHSL hsl);
+CP_API CP_ColorHSL		CP_ColorHSL_Create					(int h, int s, int l, int a);
+CP_API CP_ColorHSL		CP_ColorHSL_Lerp					(CP_ColorHSL a, CP_ColorHSL b, float t);
+CP_API CP_ColorHSL		CP_ColorHSL_FromColor				(CP_Color rgb);
 
 
 //---------------------------------------------------------
 // GRAPHICS:
 //		Functions related to drawing primitive shapes
+CP_API void				CP_Graphics_ClearBackground			(CP_Color c);
 CP_API void				CP_Graphics_DrawPoint				(float x, float y);
 CP_API void				CP_Graphics_DrawLine				(float x1, float y1, float x2, float y2);
 CP_API void				CP_Graphics_DrawLineAdvanced		(float x1, float y1, float x2, float y2, float degrees);
@@ -153,22 +158,21 @@ CP_API int				CP_Image_GetWidth					(CP_Image img);
 CP_API int				CP_Image_GetHeight					(CP_Image img);
 CP_API void				CP_Image_Draw						(CP_Image img, float x, float y, float w, float h, int alpha);
 CP_API void				CP_Image_DrawAdvanced				(CP_Image img, float x, float y, float w, float h, int alpha, float degrees);
-CP_API void				CP_Image_DrawSubImage				(CP_Image img, float x, float y, float w, float h, float s0, float t0, float s1, float t1, int alpha);
+CP_API void				CP_Image_DrawSubImage				(CP_Image img, float x, float y, float w, float h, float u0, float v0, float u1, float v1, int alpha);
+CP_API void				CP_Image_DrawSubImageAdvanced       (CP_Image img, float x, float y, float w, float h, float u0, float v0, float u1, float v1, int alpha, float degrees);
 CP_API CP_Image			CP_Image_CreateFromData				(int w, int h, unsigned char* pixelDataInput);
 CP_API CP_Image			CP_Image_Screenshot					(int x, int y, int w, int h);
-CP_API void				CP_Image_GetPixelData				(CP_Image img, unsigned char* pixelDataOutput);
-CP_API int				CP_Image_GetPixelBufferSize			(CP_Image img);
-CP_API void				CP_Image_UpdatePixelData			(CP_Image img, unsigned char* pixelDataInput);
+CP_API void				CP_Image_GetPixelData				(CP_Image img, CP_Color* pixelDataOutput);
+CP_API void				CP_Image_UpdatePixelData			(CP_Image img, CP_Color* pixelDataInput);
 
 
 //---------------------------------------------------------
 // SOUND:
 //		All functions related to loading and playing sounds
 CP_API CP_Sound			CP_Sound_Load						(const char* filepath);
-CP_API CP_Sound			CP_Sound_LoadMusic					(const char* filepath);
-CP_API void				CP_Sound_Free						(CP_Sound sound);
+CP_API CP_Sound			CP_Sound_LoadStream					(const char* filepath);
+CP_API void				CP_Sound_Free						(CP_Sound* sound);
 CP_API void				CP_Sound_Play						(CP_Sound sound);
-CP_API void				CP_Sound_PlayMusic					(CP_Sound sound);
 CP_API void				CP_Sound_PlayAdvanced				(CP_Sound sound, float volume, float pitch, CP_BOOL looping, CP_SOUND_GROUP group);
 CP_API void				CP_Sound_PauseAll					(void);
 CP_API void				CP_Sound_PauseGroup					(CP_SOUND_GROUP group);
@@ -187,6 +191,7 @@ CP_API float			CP_Sound_GetGroupPitch				(CP_SOUND_GROUP group);
 //		All functions related to loading and drawing fonts
 CP_API CP_Font			CP_Font_GetDefault					(void);
 CP_API CP_Font			CP_Font_Load						(const char* filepath);
+CP_API void				CP_Font_Free						(CP_Font* font);
 CP_API void				CP_Font_Set							(CP_Font font);
 CP_API void				CP_Font_DrawText					(const char* text, float x, float y);
 CP_API void				CP_Font_DrawTextBox					(const char* text, float x, float y, float rowWidth);
@@ -195,16 +200,16 @@ CP_API void				CP_Font_DrawTextBox					(const char* text, float x, float y, floa
 //---------------------------------------------------------
 // INPUT:
 //		Keyboard, mouse and gamepad support
-CP_API int				CP_Input_KeyTriggered				(CP_KEY keyCode);
-CP_API int				CP_Input_KeyReleased				(CP_KEY keyCode);
-CP_API int				CP_Input_KeyDown					(CP_KEY keyCode);
-CP_API int				CP_Input_MouseTriggered				(CP_MOUSE button);
-CP_API int				CP_Input_MouseReleased				(CP_MOUSE button);
-CP_API int				CP_Input_MouseDragged				(CP_MOUSE button);
-CP_API int				CP_Input_MouseDown					(CP_MOUSE button);
-CP_API int				CP_Input_MouseMoved					(void);
-CP_API int				CP_Input_MouseClicked				(void);
-CP_API int				CP_Input_MouseDoubleClicked			(void);
+CP_API CP_BOOL			CP_Input_KeyTriggered				(CP_KEY keyCode);
+CP_API CP_BOOL			CP_Input_KeyReleased				(CP_KEY keyCode);
+CP_API CP_BOOL			CP_Input_KeyDown					(CP_KEY keyCode);
+CP_API CP_BOOL			CP_Input_MouseTriggered				(CP_MOUSE button);
+CP_API CP_BOOL			CP_Input_MouseReleased				(CP_MOUSE button);
+CP_API CP_BOOL			CP_Input_MouseDown					(CP_MOUSE button);
+CP_API CP_BOOL			CP_Input_MouseMoved					(void);
+CP_API CP_BOOL			CP_Input_MouseClicked				(void);
+CP_API CP_BOOL			CP_Input_MouseDoubleClicked			(void);
+CP_API CP_BOOL			CP_Input_MouseDragged				(CP_MOUSE button);
 CP_API float			CP_Input_MouseWheel					(void);
 CP_API float			CP_Input_GetMouseX					(void);
 CP_API float			CP_Input_GetMouseY					(void);
@@ -214,22 +219,22 @@ CP_API float			CP_Input_GetMouseDeltaX				(void);
 CP_API float			CP_Input_GetMouseDeltaY				(void);
 CP_API float			CP_Input_GetMouseWorldX				(void);
 CP_API float			CP_Input_GetMouseWorldY				(void);
-CP_API int				CP_Input_GamepadTriggered			(CP_GAMEPAD button);
-CP_API int				CP_Input_GamepadTriggeredAdvanced	(CP_GAMEPAD button, int gamepadIndex);
-CP_API int				CP_Input_GamepadReleased			(CP_GAMEPAD button);
-CP_API int				CP_Input_GamepadReleasedAdvanced	(CP_GAMEPAD button, int gamepadIndex);
-CP_API int				CP_Input_GamepadDown				(CP_GAMEPAD button);
-CP_API int				CP_Input_GamepadDownAdvanced		(CP_GAMEPAD button, int gamepadIndex);
+CP_API CP_BOOL			CP_Input_GamepadTriggered			(CP_GAMEPAD button);
+CP_API CP_BOOL			CP_Input_GamepadTriggeredAdvanced	(CP_GAMEPAD button, unsigned gamepadIndex);
+CP_API CP_BOOL			CP_Input_GamepadReleased			(CP_GAMEPAD button);
+CP_API CP_BOOL			CP_Input_GamepadReleasedAdvanced	(CP_GAMEPAD button, unsigned gamepadIndex);
+CP_API CP_BOOL			CP_Input_GamepadDown				(CP_GAMEPAD button);
+CP_API CP_BOOL			CP_Input_GamepadDownAdvanced		(CP_GAMEPAD button, unsigned gamepadIndex);
 CP_API float			CP_Input_GamepadRightTrigger		(void);
-CP_API float			CP_Input_GamepadRightTriggerAdvanced(int gamepadIndex);
+CP_API float			CP_Input_GamepadRightTriggerAdvanced(unsigned gamepadIndex);
 CP_API float			CP_Input_GamepadLeftTrigger			(void);
-CP_API float			CP_Input_GamepadLeftTriggerAdvanced	(int gamepadIndex);
+CP_API float			CP_Input_GamepadLeftTriggerAdvanced	(unsigned gamepadIndex);
 CP_API CP_Vector		CP_Input_GamepadRightStick			(void);
-CP_API CP_Vector		CP_Input_GamepadRightStickAdvanced	(int gamepadIndex);
+CP_API CP_Vector		CP_Input_GamepadRightStickAdvanced	(unsigned gamepadIndex);
 CP_API CP_Vector		CP_Input_GamepadLeftStick			(void);
-CP_API CP_Vector		CP_Input_GamepadLeftStickAdvanced	(int gamepadIndex);
-CP_API int				CP_Input_GamepadConnected			(void);
-CP_API int				CP_Input_GamepadConnectedAdvanced	(int gamepadIndex);
+CP_API CP_Vector		CP_Input_GamepadLeftStickAdvanced	(unsigned gamepadIndex);
+CP_API CP_BOOL			CP_Input_GamepadConnected			(void);
+CP_API CP_BOOL			CP_Input_GamepadConnectedAdvanced	(unsigned gamepadIndex);
 
 
 //---------------------------------------------------------
@@ -255,14 +260,16 @@ CP_API CP_Vector		CP_Vector_Zero						(void);
 CP_API CP_Vector		CP_Vector_Negate					(CP_Vector vec);
 CP_API CP_Vector		CP_Vector_Add						(CP_Vector a, CP_Vector b);
 CP_API CP_Vector		CP_Vector_Subtract					(CP_Vector a, CP_Vector b);
-CP_API CP_Vector		CP_Vector_Normalize					(CP_Vector vec);
 CP_API CP_Vector		CP_Vector_Scale						(CP_Vector vec, float scale);
+CP_API CP_Vector		CP_Vector_Normalize					(CP_Vector vec);
 CP_API CP_Vector		CP_Vector_MatrixMultiply			(CP_Matrix mat, CP_Vector vec);
 CP_API float			CP_Vector_Length					(CP_Vector vec);
 CP_API float			CP_Vector_Distance					(CP_Vector a, CP_Vector b);
 CP_API float			CP_Vector_DotProduct				(CP_Vector a, CP_Vector b);
 CP_API float			CP_Vector_CrossProduct				(CP_Vector a, CP_Vector b);
 CP_API float			CP_Vector_Angle						(CP_Vector a, CP_Vector b);
+CP_API float			CP_Vector_AngleCW					(CP_Vector from, CP_Vector to);
+CP_API float			CP_Vector_AngleCCW					(CP_Vector from, CP_Vector to);
 
 
 //---------------------------------------------------------
@@ -285,7 +292,7 @@ CP_API CP_Matrix		CP_Matrix_Multiply					(CP_Matrix a, CP_Matrix b);
 //---------------------------------------------------------
 // RANDOM:
 //		Random number generation including Gaussian distribution and Perlin noise
-CP_API unsigned int		CP_Random_GetBool					(void);
+CP_API CP_BOOL			CP_Random_GetBool					(void);
 CP_API unsigned int		CP_Random_GetInt					(void);
 CP_API unsigned int		CP_Random_RangeInt					(unsigned int lowerBound, unsigned int upperBound);
 CP_API float			CP_Random_GetFloat					(void);

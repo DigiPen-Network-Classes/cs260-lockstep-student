@@ -23,8 +23,8 @@ CP_Vector Board::GetCenterOfTile(const BoardPosition position) const
 
 	// calculate the center of the given tile, taking into account borders as well as the configurable center of the board.
 	auto result = CP_Vector_Subtract(center_, CP_Vector_Scale(size_, 0.5f));
-	result.x += (border_size_ + (tile_size_ / 2) + (static_cast<float>(position.x) * (tile_size_ + border_size_)));
-	result.y += (border_size_ + (tile_size_ / 2) + (static_cast<float>(position.y) * (tile_size_ + border_size_)));
+	result.x += (border_size_ + (static_cast<float>(position.x) * (tile_size_ + border_size_)));
+	result.y += (border_size_ + (static_cast<float>(position.y) * (tile_size_ + border_size_)));
 	
 	return result;
 }
@@ -52,10 +52,6 @@ void Board::Draw() const
 	const auto board_top_left = CP_Vector_Subtract(center_, CP_Vector_Scale(size_, 0.5f));
 
 	CP_Settings_NoStroke();
-
-	// draw the board background - i.e., the borders
-	CP_Settings_Fill(board_color_);
-	CP_Graphics_DrawRect(board_top_left.x, board_top_left.y, size_.x, size_.y);
 
 	// draw each tile, skipping the border dimensions
 	CP_Settings_Fill(tile_color_);
